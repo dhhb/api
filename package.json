@@ -1,0 +1,42 @@
+{
+  "name": "dhhb-api",
+  "version": "0.1.0",
+  "description": "D.H.H.B API",
+  "main": "bin/runServer.js",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.1",
+    "busboy": "^0.2.12",
+    "c0nfig": "^0.2.2",
+    "cookie-parser": "^1.4.0",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "jsonwebtoken": "^5.4.1",
+    "morgan": "^1.6.1",
+    "network-address": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.2.0",
+    "babel-core": "^6.2.1",
+    "babel-preset-es2015": "^6.1.18",
+    "babel-preset-stage-1": "^6.1.18",
+    "nodemon": "^1.8.1"
+  },
+  "scripts": {
+    "nodemon": "nodemon -w ./src bin/runServer -e js,jsx,json",
+    "start": "node bin/runServer",
+    "start-dev": "npm run nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhhb/api.git"
+  },
+  "keywords": [],
+  "author": "Dmitri Voronianski <dmitri.voronianski@gmail.com>",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/dhhb/api/issues"
+  },
+  "homepage": "https://github.com/dhhb/api#readme"
+}
