@@ -1,6 +1,9 @@
+import './utils/mongodbConnector';
+
 import http from 'http';
 import path from 'path';
 import express from 'express';
+import serveFavicon from 'serve-favicon';
 import logger from 'morgan';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -15,8 +18,9 @@ if ('test' !== env) {
     app.use(logger('dev'));
 }
 
+app.use(serveFavicon(path.join(__dirname, '/favicon.png')));
 app.use(cors());
-app.use(bodyParser.json());
+app.use(bodyParser.text({type: 'application/graphql'}));
 app.use(cookieParser());
 app.use(noClientCache());
 
