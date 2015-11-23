@@ -25,7 +25,7 @@
     _id: String,
     title: String,
     text: String,
-    author: UserId,
+    author: UserIdRef,
     createdAt: Date,
     modifiedAt: Date,
     files: [{
@@ -33,6 +33,18 @@
         fileType: String
     }],
     status: Enum["draft", "published", "deleted"],
-    tags: [String]
+    tags: [String],
+    topic: TopicIdRef
+}
+```
+
+
+### Topic
+
+```
+{
+    _id: String,
+    title: String,
+    createdAt: Date
 }
 ```
