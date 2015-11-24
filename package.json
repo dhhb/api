@@ -4,6 +4,8 @@
   "description": "D.H.H.B API",
   "main": "bin/runServer.js",
   "dependencies": {
+    "@risingstack/graffiti": "^2.0.0",
+    "@risingstack/graffiti-mongoose": "^4.3.0",
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.1",
     "busboy": "^0.2.12",
@@ -14,6 +16,7 @@
     "express-graphql": "^0.4.4",
     "graphql": "^0.4.13",
     "jsonwebtoken": "^5.4.1",
+    "lodash": "^3.10.1",
     "mongoose": "^4.2.7",
     "morgan": "^1.6.1",
     "network-address": "^1.0.0",

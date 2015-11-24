@@ -1,9 +1,11 @@
-import graphqlHTTP from 'express-graphql';
+import express from 'express';
+
+import graphql from './endpoints/graphql';
 
 export default function () {
     var router = express.Router();
 
-    router.get('/graphql', graphqlHTTP);
+    router.use('/graphql', graphql());
 
     return router;
 }
