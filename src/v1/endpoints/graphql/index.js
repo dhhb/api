@@ -11,12 +11,10 @@ const MongooseGraphQLSchema = getSchema([User, Article]);
 export default function () {
     var router = express.Router();
 
-    router.use('/',
-        graffiti.express({
-            schema: MongooseGraphQLSchema,
-            graphiql: true
-        })
-    );
+    router.use(graffiti.express({
+        schema: MongooseGraphQLSchema,
+        graphiql: true
+    }));
 
     return router;
 }
