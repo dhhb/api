@@ -62,6 +62,7 @@ REST via `/v1`:
 - `POST` /writers (private - superuser)
 - `GET` /writers (public)
 - `GET` /writers/:id (public)
+- `POST` /writers/login
 - `GET` /topics (public)
 - `POST` /topics (private - superuser)
 
