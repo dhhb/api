@@ -20,5 +20,6 @@ module.exports = {
         signKey: 'b2811b87caa774ccf552e6abe95f424cc60224ee',
         tokenTTL: 1000 * 60 * 60 * 24 * 30, // 30 days
         resetPasswordTTL: 1000 * 60 * 60 * 24 // 1 day
-    }
+    },
+    userRoles: ['superuser', 'writer', 'reader']
 };

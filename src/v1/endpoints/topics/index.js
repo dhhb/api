@@ -1,7 +1,30 @@
 import express from 'express';
+import {
+    validateAccessToken,
+    validateUserRole
+} from '../../../middleware';
+
 
 export default function () {
-    let router = express.Router();
+    let topics = express.Router();
 
-    return router;
+    topics.get('/',
+        returnTopics
+    );
+
+    topics.post('/',
+        validateAccessToken,
+        validateUserRole,
+        createTopic
+    );
+
+    async function returnTopic (req, res, next) {
+
+    }
+
+    async function createTopic (req, res, next) {
+
+    }
+
+    return topics;
 }

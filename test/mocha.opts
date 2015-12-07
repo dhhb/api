@@ -1,5 +1,5 @@
---compilers js:babel/register
---require ./test/setup.js
+--compilers js:babel-core/register
+--require ./test/testSetup.js
 --reporter spec
 --ui bdd
 --recursive

@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 import { host, port, env } from 'c0nfig';
 
 import { noClientCache } from './middleware';
-import apiFirstVersion from './v1';
+import rest from './v1';
 import graphql from './v1/endpoints/graphql';
 
 const app = express();
@@ -24,7 +24,7 @@ app.use(cors());
 app.use(cookieParser());
 app.use(noClientCache());
 
-app.use('/v1', apiFirstVersion());
+app.use('/v1', rest());
 app.use(graphql()); // experimental
 
 http.createServer(app).listen(port, () => {

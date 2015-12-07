@@ -63,12 +63,10 @@ REST via `/v1`:
 - `PUT` /articles/:id (private - writers)
 - `DELETE` /articles/:id (private - writers)
 - `POST` /articles/:id/publish (private - editors)
-
 - `POST` /writers (private - superuser)
 - `GET` /writers (public)
 - `GET` /writers/:id (public)
 - `POST` /writers/login
-
 - `GET` /topics (public)
 - `POST` /topics (private - superuser)
 

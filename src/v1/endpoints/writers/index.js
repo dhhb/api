@@ -1,7 +1,14 @@
 import express from 'express';
 
 export default function () {
-    let router = express.Router();
+    let writers = express.Router();
 
-    return router;
+    writers.get('/');
+    writers.get('/:id');
+
+    writers.post('/signup');
+    writers.post('/login');
+    writers.post('/login/facebook');
+
+    return writers;
 }
