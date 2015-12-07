@@ -11,9 +11,12 @@
     _id: String,
     email: String,
     password: String,
+    name: String,
     profileImage: {
         url: String
     },
+    createdAt: Date,
+    modifiedAt: Date,
     role: Enum["superuser", "writer", "editor", "reader"]
 }
 ```
@@ -45,7 +48,8 @@
 {
     _id: String,
     title: String,
-    createdAt: Date
+    createdAt: Date,
+    modifiedAt: Date
 }
 ```
 
@@ -59,10 +63,12 @@ REST via `/v1`:
 - `PUT` /articles/:id (private - writers)
 - `DELETE` /articles/:id (private - writers)
 - `POST` /articles/:id/publish (private - editors)
+
 - `POST` /writers (private - superuser)
 - `GET` /writers (public)
 - `GET` /writers/:id (public)
 - `POST` /writers/login
+
 - `GET` /topics (public)
 - `POST` /topics (private - superuser)
 
