@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
-import { userRoles } from 'c0nfig';
+import { userRoles, env } from 'c0nfig';
 import createdModifiedPlugin from '../../utils/mongooseCreatedModifiedPlugin';
 
 const UserSchema = new mongoose.Schema({
@@ -16,7 +16,7 @@ const UserSchema = new mongoose.Schema({
 
     password: {
         type: String,
-        validate: [ensurePassword, 'Password is required']
+        required: 'Password is required'
     },
 
     name: {

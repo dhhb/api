@@ -11,7 +11,7 @@ import { host, port, env } from 'c0nfig';
 
 import { noClientCache } from './middleware';
 import rest from './v1';
-import graphql from './v1/endpoints/graphql';
+// import graphql from './v1/endpoints/graphql';
 
 const app = express();
 
@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(noClientCache());
 
 app.use('/v1', rest());
-app.use(graphql()); // experimental
+// app.use(graphql()); // experimental
 
 http.createServer(app).listen(port, () => {
     console.log(`D.H.H.B API is listening on http://${host}:${port} env=${env}`);

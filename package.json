@@ -18,7 +18,7 @@
     "is-express-schema-valid": "^0.1.7",
     "jsonwebtoken": "^5.4.1",
     "lodash": "^3.10.1",
-    "mongoose": "^4.2.7",
+    "mongoose": "^4.2.9",
     "morgan": "^1.6.1",
     "network-address": "^1.0.0",
     "serve-favicon": "^2.3.0",
@@ -37,7 +37,8 @@
     "chai-subset": "^1.2.0",
     "mocha": "^2.3.4",
     "nodemon": "^1.8.1",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "supertest": "^1.1.0"
   },
   "scripts": {
     "nodemon": "nodemon -w ./src bin/runServer -e js,jsx,json",
