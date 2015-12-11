@@ -17,44 +17,44 @@ import {
 export default function () {
     let writers = express.Router();
 
-    writers.get('/',
-        validateAccessToken,
-        validateUserRole('writer'),
-        returnAllWriters
-    );
+    // writers.get('/',
+    //     validateAccessToken,
+    //     validateUserRole('writer'),
+    //     returnAllWriters
+    // );
 
-    writers.get('/:id',
-        validateAccessToken,
-        validateObjectId,
-        validateUserRole('writer'),
-        findWriterByEmail,
-        returnWriter
-    );
+    // writers.get('/:id',
+    //     validateAccessToken,
+    //     validateObjectId,
+    //     validateUserRole('writer'),
+    //     findWriterByEmail,
+    //     returnWriter
+    // );
 
-    writers.get('/:id/articles',
-        validateAccessToken,
-        validateObjectId,
-        validateUserRole('writer'),
-        returnWriterArtilces,
-    );
+    // writers.get('/:id/articles',
+    //     validateAccessToken,
+    //     validateObjectId,
+    //     validateUserRole('writer'),
+    //     returnWriterArtilces,
+    // );
 
-    writers.post('/signup',
-        validate(signupSchema),
-        validateInviteCode,
-        findWriterByEmail,
-        signupWriter,
-        generateAccessToken,
-        returnWriter
-    );
+    // writers.post('/signup',
+    //     validate(signupSchema),
+    //     validateInviteCode,
+    //     findWriterByEmail,
+    //     signupWriter,
+    //     generateAccessToken,
+    //     returnWriter
+    // );
 
-    writers.post('/login',
-        validate(loginSchema),
-        findWriterByEmail,
-        loginWriter,
-        generateAccessToken,
-        returnWriter
-    );
-    writers.post('/login/facebook');
+    // writers.post('/login',
+    //     validate(loginSchema),
+    //     findWriterByEmail,
+    //     loginWriter,
+    //     generateAccessToken,
+    //     returnWriter
+    // );
+    // writers.post('/login/facebook');
 
     function validateInviteCode (req, res, next) {
         const inviteCode = req.headers['x-invite-code'] || req.query.invite_code;
