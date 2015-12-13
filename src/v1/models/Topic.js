@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { env } from 'c0nfig';
 import createdModifiedPlugin from '../../utils/mongooseCreatedModifiedPlugin';
 
 const TopicSchema = new mongoose.Schema({

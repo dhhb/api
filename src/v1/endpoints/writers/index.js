@@ -38,14 +38,14 @@ export default function () {
     //     returnWriterArtilces,
     // );
 
-    // writers.post('/signup',
-    //     validate(signupSchema),
-    //     validateInviteCode,
-    //     findWriterByEmail,
-    //     signupWriter,
-    //     generateAccessToken,
-    //     returnWriter
-    // );
+    writers.post('/signup',
+        validate(signupSchema),
+        validateInviteCode,
+        findWriterByEmail,
+        signupWriter,
+        generateAccessToken,
+        returnWriter
+    );
 
     // writers.post('/login',
     //     validate(loginSchema),
