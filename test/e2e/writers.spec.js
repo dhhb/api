@@ -7,10 +7,9 @@ let request = supertest(`${apiUrl}/writers`);
 let writerData = {
     email: createTestEmail(),
     password: 'qwerty',
-    firstName: 'John',
-    lastName: 'Doe',
-    role: 'artist'
+    name: 'John Doe'
 };
+
 let inviteHeaders = {'x-invite-code': inviteSharedKey};
 let invalidInviteHeaders = {'x-invite-code': '122456abcde'};
 
@@ -38,11 +37,12 @@ describe('/writers endpoints', () => {
                 it('should not register new writer', done => {
                     request
                         .post('/signup')
+                        .set(inviteHeaders)
                         .send({email: 'valid@example.com', 'password': 'qwerty'})
                         .expect(400)
                         .expect(res => {
                             expect(res.body).to.have.keys('errors');
-                            expect(res.body.errors.length).to.equal(2);
+                            expect(res.body.errors.length).to.equal(1);
                         })
                         .end(done);
                 });
@@ -52,9 +52,9 @@ describe('/writers endpoints', () => {
                 it('should not register new writer', done => {
                     request
                         .post('/signup')
-                        .query(invalidInviteHeaders)
-                        .send({email: 'valid@example.com', 'password': 'qwerty'})
-                        .expect(401)
+                        .set(invalidInviteHeaders)
+                        .send(writerData)
+                        .expect(403)
                         .expect(res => {
                             expect(res.body).to.have.keys('errors');
 
@@ -66,28 +66,31 @@ describe('/writers endpoints', () => {
             });
         });
 
-        xdescribe('when creating non-existed writer', () => {
+        describe('when creating non-existed writer', () => {
             it('should register and return new writer with access token', done => {
                 request
                     .post('/signup')
+                    .set(inviteHeaders)
                     .send(writerData)
                     .expect(200)
                     .expect(res => {
-                        expect(res.body).to.have.keys('accessToken', 'writers');
-                        expect(res.body.user).to.have.keys('email', 'name', 'role');
+                        expect(res.body).to.have.keys('accessToken', 'user');
+                        expect(res.body.user).to.include.keys('_id', 'email', 'name', 'role');
                         expect(res.body.user.email).to.equal(writerData.email);
                     })
                     .end(done);
             });
 
-            describe('when trying to create existed writers', () => {
+            describe('when trying to create existed writer', () => {
                 it('should return error', done => {
                     request
                         .post('/signup')
-                        .send(writersData)
+                        .set(inviteHeaders)
+                        .send(writerData)
                         .expect(400)
                         .expect(res => {
                             expect(res.body).to.have.keys('errors');
+                            expect(res.body.errors.length).to.equal(1);
                         })
                         .end(done);
                 });
@@ -97,15 +100,15 @@ describe('/writers endpoints', () => {
                 describe('when login with valid credentianls', () => {
                     let validAccessToken;
 
-                    it('should return writers and access token', done => {
+                    it('should return writer and access token', done => {
                         request
                             .post('/login')
-                            .send({email: writersData.email, password: writersData.password})
+                            .send({email: writerData.email, password: writerData.password})
                             .expect(200)
                             .expect(res => {
-                                expect(res.body).to.have.keys('accessToken', 'writers');
-                                expect(res.body.writers).to.have.keys('email', 'firstName', 'lastName', 'role');
-                                expect(res.body.writers.email).to.equal(writersData.email);
+                                expect(res.body).to.have.keys('accessToken', 'user');
+                                expect(res.body.user).to.include.keys('_id', 'email', 'name', 'role');
+                                expect(res.body.user.email).to.equal(writerData.email);
 
                                 validAccessToken = res.body.accessToken;
                             })
@@ -113,25 +116,25 @@ describe('/writers endpoints', () => {
                     });
 
                     describe('GET /me', () => {
-                        describe('when requesting self info as authorized writers', () => {
-                            it('should return writers and access token', done => {
+                        describe('when requesting self info as authorized writer', () => {
+                            it('should return writer', done => {
                                 request
                                     .get('/me')
-                                    .set({'X-Access-Token': validAccessToken})
+                                    .set({'x-access-token': validAccessToken})
                                     .expect(200)
                                     .expect(res => {
-                                        expect(res.body).to.have.keys('email', 'firstName', 'lastName', 'role');
-                                        expect(res.body.email).to.equal(writersData.email);
+                                        expect(res.body.user).to.include.keys('_id', 'email', 'name', 'role');
+                                        expect(res.body.user.email).to.equal(writerData.email);
                                     })
                                     .end(done);
                             });
                         });
 
                         describe('when requesting self info as non-authorized writers', () => {
-                            it('should return writers and access token', done => {
+                            it('should note return writer', done => {
                                 request
                                     .get('/me')
-                                    .set({'X-Access-Token': '12345'})
+                                    .set({'x-access-token': '12345'})
                                     .expect(401)
                                     .expect(res => {
                                         expect(res.body).to.have.keys('errors');
@@ -162,7 +165,7 @@ describe('/writers endpoints', () => {
                     it('should return error', done => {
                         request
                             .post('/login')
-                            .send({email: writersData.email, password: 'foo'})
+                            .send({email: writerData.email, password: 'foo'})
                             .expect(400)
                             .expect(res => {
                                 expect(res.body).to.have.keys('errors');
@@ -175,15 +178,15 @@ describe('/writers endpoints', () => {
         });
     });
 
-    xdescribe('GET /articles', () => {
-        let testUser, authHeaders;
+    describe('GET /articles', () => {
+        let testWriter, authHeaders;
 
-        describe('signup a new writers and create some items', () => {
+        describe('signup a new writer and create some articles', () => {
             before(async done => {
                 try {
-                    let { writers, accessToken } = await getTestUser();
-                    authHeaders = {'X-Access-Token': accessToken};
-                    testUser = writers;
+                    let { user, accessToken } = await getTestUser();
+                    authHeaders = {'x-access-token': accessToken};
+                    testWriter = user;
                     done();
                 } catch (err) {
                     done(err);
@@ -192,32 +195,32 @@ describe('/writers endpoints', () => {
 
             before(async done => {
                 try {
-                    await generateItems(testUser.email);
+                    await generateArticles(testWriter._id);
                     done();
                 } catch (err) {
                     done(err);
                 }
             });
 
-            describe('when getting items and writers not logged in', () => {
+            describe('when getting articles and writer is not logged in', () => {
                 it('should return an error', done => {
                     request
-                        .get('/items')
+                        .get('/articles')
                         .expect(401)
                         .end(done);
                 });
             });
 
-            describe('when getting items for logged in writers', () => {
-                it('should return an array of items', done => {
+            describe('when getting articles for logged in writer', () => {
+                it('should return an array of articles', done => {
                     request
-                        .get('/items')
+                        .get(`/${testWriter._id}/articles`)
                         .set(authHeaders)
                         .expect(200)
                         .expect(res => {
                             expect(res.body).to.be.an('array');
                             expect(res.body).to.have.length(5);
-                            expect(res.body[0].owner).to.equal(testUser.email);
+                            expect(res.body[0].author).to.equal(testWriter._id);
                         })
                         .end(done);
                 });

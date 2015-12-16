@@ -9,7 +9,12 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { host, port, env } from 'c0nfig';
 
-import { noClientCache } from './middleware';
+import {
+    noClientCache,
+    handleErrors,
+    handleNotFound
+} from './middleware';
+
 import rest from './v1';
 // import graphql from './v1/endpoints/graphql';
 
@@ -25,6 +30,8 @@ app.use(cookieParser());
 app.use(noClientCache());
 
 app.use('/v1', rest());
+app.use(handleNotFound);
+app.use(handleErrors);
 // app.use(graphql()); // experimental
 
 http.createServer(app).listen(port, () => {

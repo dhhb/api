@@ -1,3 +1,2 @@
-require('babel-core/register');
-require('babel-polyfill');
+require('babel/register')({ stage: 0 });
 require('../src/server.js');

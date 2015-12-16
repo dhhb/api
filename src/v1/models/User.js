@@ -2,8 +2,13 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import validator from 'validator';
-import { userRoles, env } from 'c0nfig';
+import config from 'c0nfig';
 import createdModifiedPlugin from '../../utils/mongooseCreatedModifiedPlugin';
+import pick from 'lodash/object/pick';
+
+const { userRoles, env } = config;
+const { hashRounds } = config.bcrypt;
+const { signKey, tokenTTL, resetPasswordTTL } = config.auth;
 
 const UserSchema = new mongoose.Schema({
     email: {
@@ -79,7 +84,7 @@ function generateAccessToken (user) {
         email: user.email,
         role: user.role
     };
-    const token = jwt.sign(userJWTData, signKey, {expiresInSeconds: tokenTTL / 1000});
+    const token = jwt.sign(userJWTData, signKey, {expiresIn: tokenTTL / 1000});
     const tokenBase64 = new Buffer(token).toString('base64');
 
     return tokenBase64;
@@ -109,6 +114,14 @@ UserSchema.pre('save', storePassword);
 if (env === 'production') {
     UserSchema.set('autoIndex', false);
 }
+
+UserSchema.set('toJSON', {
+    versionKey: false,
+    transform: (doc, ret) => {
+        const publicUser = pick(ret, ['_id', 'email', 'role', 'name', 'profileImage']);
+        return publicUser;
+    }
+});
 UserSchema.plugin(createdModifiedPlugin, { index: true });
 
 const User = mongoose.model('User', UserSchema);

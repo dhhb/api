@@ -1,8 +1,10 @@
 import express from 'express';
+import mongoose from 'mongoose';
 import validate from 'is-express-schema-valid';
 import { inviteSharedKey } from 'c0nfig';
 
 import User from '../../models/User';
+import Article from '../../models/Article';
 import errors from '../../../utils/errors';
 import {
     signupSchema,
@@ -17,26 +19,32 @@ import {
 export default function () {
     let writers = express.Router();
 
-    // writers.get('/',
-    //     validateAccessToken,
-    //     validateUserRole('writer'),
-    //     returnAllWriters
-    // );
+    writers.get('/',
+        validateAccessToken,
+        validateUserRole('writer'),
+        returnAllWriters
+    );
 
-    // writers.get('/:id',
-    //     validateAccessToken,
-    //     validateObjectId,
-    //     validateUserRole('writer'),
-    //     findWriterByEmail,
-    //     returnWriter
-    // );
+    writers.get('/me',
+        validateAccessToken,
+        findWriterByEmail,
+        returnWriter
+    );
 
-    // writers.get('/:id/articles',
-    //     validateAccessToken,
-    //     validateObjectId,
-    //     validateUserRole('writer'),
-    //     returnWriterArtilces,
-    // );
+    writers.get('/:id',
+        validateAccessToken,
+        validateObjectId,
+        validateUserRole('writer'),
+        findWriterByEmail,
+        returnWriter
+    );
+
+    writers.get('/:id/articles',
+        validateAccessToken,
+        validateObjectId,
+        validateUserRole('writer'),
+        returnWriterArticles,
+    );
 
     writers.post('/signup',
         validate(signupSchema),
@@ -47,14 +55,14 @@ export default function () {
         returnWriter
     );
 
-    // writers.post('/login',
-    //     validate(loginSchema),
-    //     findWriterByEmail,
-    //     loginWriter,
-    //     generateAccessToken,
-    //     returnWriter
-    // );
-    // writers.post('/login/facebook');
+    writers.post('/login',
+        validate(loginSchema),
+        findWriterByEmail,
+        loginWriter,
+        generateAccessToken,
+        returnWriter
+    );
+    writers.post('/login/facebook');
 
     function validateInviteCode (req, res, next) {
         const inviteCode = req.headers['x-invite-code'] || req.query.invite_code;
@@ -73,9 +81,9 @@ export default function () {
         }
     }
 
-    async function returnWriterArtilces (req, res, next) {
+    async function returnWriterArticles (req, res, next) {
         try {
-            const articles = await Artilce.find({author: req.userId });
+            const articles = await Article.find({author: req.params.id});
             res.json(articles || []);
         } catch (err) {
             next(err);
@@ -142,7 +150,7 @@ export default function () {
             return next(new errors.NotFound('User is not found'));
         }
 
-        const data = req.accessToken ? { accessToken: req.accessToken, user } : user;
+        const data = req.accessToken ? {accessToken: req.accessToken, user} : { user };
         res.json(data);
     }
 

@@ -17,10 +17,10 @@ module.exports = {
     },
     auth: {
         cookieName: 'dhhb_auth_token',
-        signKey: 'c88afe1f6aa4b3c7982695ddd1cdd200bcd96662',
+        signKey: 'abcdefghijklmnopqrstuvwxyz',
         tokenTTL: 1000 * 60 * 60 * 24 * 30, // 30 days
         resetPasswordTTL: 1000 * 60 * 60 * 24 // 1 day
     },
     userRoles: ['superuser', 'writer', 'reader'],
-    inviteSharedKey: '9a7e87e48d619dd4751d6543f8fbbfec498b728b'
+    inviteSharedKey: 'xx1234567890xx'
 };

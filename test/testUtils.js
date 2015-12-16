@@ -16,9 +16,13 @@ export function createTestUserData (role = 'writer') {
     };
 }
 
-export async function getTestUser (role = 'artist') {
-    const user = await User.create(createTestUserData(role));
-    const accessToken = User.generateAccessToken(user.email);
+export async function getTestUser (role = 'writer') {
+    let user = await User.create(createTestUserData(role));
+    let accessToken = User.generateAccessToken(user);
+
+    user = user.toJSON();
+    user._id = user._id.toString();
+
     return { accessToken, user };
 }
 

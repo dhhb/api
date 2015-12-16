@@ -23,7 +23,6 @@ export const signupSchema = {
     query: {
         invite_code: {
             type: 'string',
-            required: true,
             format: 'hex'
         }
     }

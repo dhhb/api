@@ -16,11 +16,11 @@ module.exports = {
         hashRounds: 10
     },
     auth: {
-        cookieName: 'dhhb_auth_token',
-        signKey: 'b2811b87caa774ccf552e6abe95f424cc60224ee',
+        cookieName: process.env.AUTH_COOKIE_NAME || 'dhhb_auth_token',
+        signKey: process.env.AUTH_SIGN_KEY || 'b2811b87caa774ccf552e6abe95f424cc60224ee',
         tokenTTL: 1000 * 60 * 60 * 24 * 30, // 30 days
         resetPasswordTTL: 1000 * 60 * 60 * 24 // 1 day
     },
     userRoles: ['superuser', 'writer', 'reader'],
-    inviteSharedKey: ''
+    inviteSharedKey: process.env.INVITE_SHARED_KEY
 };
