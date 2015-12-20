@@ -1,5 +1,3 @@
-import { userRoles } from 'c0nfig';
-
 const emailSchema = {
     type: 'string',
     format: 'email',

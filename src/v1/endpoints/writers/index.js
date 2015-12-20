@@ -1,5 +1,4 @@
 import express from 'express';
-import mongoose from 'mongoose';
 import validate from 'is-express-schema-valid';
 import { inviteSharedKey } from 'c0nfig';
 

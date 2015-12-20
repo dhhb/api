@@ -11,7 +11,7 @@ export default function () {
     router.use(bodyParser.json());
     // router.use('/articles', articles());
     router.use('/writers', writers());
-    // router.use('/topics', topics());
+    router.use('/topics', topics());
 
     return router;
 }
